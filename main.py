@@ -1,6 +1,6 @@
 import mysql.connector
 # there appears to be an error with the way python handles the ⟕ character. 
-relationalStatement = "Π*(σactor_id<100∧first_name='Penelope'(actor, film))"
+relationalStatement = "Π*(σactor_id<100∧first_name='Penelope'(actorXfilm))"
 
 sqlStatement = "("
 table1 = ""
@@ -85,6 +85,8 @@ def interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff):
                         fromStatement = fromStatement + " natural right outer join "
                     elif n == "⟕":
                         fromStatement = fromStatement + " natural left outer join "
+                    elif n == "X":
+                        fromStatement = fromStatement + ", "
                     else:
                         fromStatement = fromStatement + n
                     i = i +1
