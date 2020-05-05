@@ -1,6 +1,6 @@
 import mysql.connector
 # there appears to be an error with the way python handles the ⟕ character. 
-relationalStatement = "Π*(actor⟕film_actor)"
+relationalStatement = "Π*(σfilm_id<20(film)"
 
 sqlStatement = ""
 
@@ -66,7 +66,7 @@ def interpretRA(relationalStatement, sqlStatement):
                 fromStatement = fromStatement + " "
     sqlStatement = selectStatement + fromStatement + whereStatement
     print(sqlStatement)
-    #runScript(sqlStatement)
+    runScript(sqlStatement)
     
     
 interpretRA(relationalStatement, sqlStatement)
