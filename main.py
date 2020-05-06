@@ -1,17 +1,28 @@
 import mysql.connector
+import tkinter
 # there appears to be an error with the way python handles the ⟕ character. 
-relationalStatement = "Π*(σactor_id<100∧first_name='Penelope'(actorXfilm))"
-
 sqlStatement = "("
-table1 = ""
-table2 = ""
-setDiff = False
-findPredicate = True
+# relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
+
+# sqlStatement = "("
+# table1 = ""
+# table2 = ""
+# setDiff = False
+# findPredicate = True
+
+def popupmsg(msg):
+    popup = tkinter.Tk()
+    popup.wm_title("Output")
+    label = tkinter.Label(popup, text=msg)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = tkinter.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
 
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Tr332AndStuff",
+    passwd="qwerty",
     database="sakila"
 )
 
@@ -22,7 +33,15 @@ def runScript(myScript):
     for x in mycursor:
         print(x)
 
-def interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff):
+
+def interpretRA():
+    
+    table1 = ""
+    table2 = ""
+    setDiff = False
+    findPredicate = True
+    relationalStatement = entry.get()
+
     selectStatement = ""
     fromStatement = ""
     whereStatement = ""
@@ -97,11 +116,39 @@ def interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff):
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
+
+    popupmsg(sqlStatement)
     print(sqlStatement)
     
-    runScript(sqlStatement)
-    
-    
-interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff)
+    #runScript(sqlStatement)
+#END interpretRA   
+
+#UI and init
+root = tkinter.Tk()
+root.title("RA Interpreter")
+
+canvas = tkinter.Canvas(root, width = 400, height = 300)
+canvas.pack()
+
+entry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = entry)
+
+button = tkinter.Button(text='Interpret RA Statement', command=interpretRA)
+
+canvas.create_window(200, 180, window = button)
+
+# text = tkinter.Text(root)
+# text.insert("blah blah blah\n")
+# canvas.create_window(200, 180, window = text)
+
+# sqlStatement.grid(200, 210, window = )
+
+#text = tkinter.Text(root, width = 400, height = 300)
+#text.pack()
+#text.insert(tk.END, "blah blah blah\n")
+root.mainloop()
+
+
+#interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff)
 #print(sqlStatement)
 #runScript("(SELECT * FROM film WHERE film_id<20 ) MINUS (SELECT * FROM film WHERE film_id>500 )")
