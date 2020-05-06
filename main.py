@@ -134,18 +134,8 @@ entry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = entry)
 
 button = tkinter.Button(text='Interpret RA Statement', command=interpretRA)
-
 canvas.create_window(200, 180, window = button)
-
-# text = tkinter.Text(root)
-# text.insert("blah blah blah\n")
-# canvas.create_window(200, 180, window = text)
-
-# sqlStatement.grid(200, 210, window = )
-
-#text = tkinter.Text(root, width = 400, height = 300)
-#text.pack()
-#text.insert(tk.END, "blah blah blah\n")
+#Awaits button press to run interpretRA with input
 root.mainloop()
 
 
