@@ -1,14 +1,8 @@
 import mysql.connector
 import tkinter
-# there appears to be an error with the way python handles the ⟕ character. 
-sqlStatement = "("
-# relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
 
-# sqlStatement = "("
-# table1 = ""
-# table2 = ""
-# setDiff = False
-# findPredicate = True
+
+# relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
 
 def popupmsg(msg):
     popup = tkinter.Tk()
@@ -22,7 +16,7 @@ def popupmsg(msg):
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="qwerty",
+    passwd="Tr332AndStuff",
     database="sakila"
 )
 
@@ -42,6 +36,7 @@ def interpretRA():
     findPredicate = True
     relationalStatement = entry.get()
 
+    sqlStatement = "("
     selectStatement = ""
     fromStatement = ""
     whereStatement = ""
@@ -116,11 +111,10 @@ def interpretRA():
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
-
+    runScript(sqlStatement)
     popupmsg(sqlStatement)
-    print(sqlStatement)
+    print(sqlStatement)    
     
-    #runScript(sqlStatement)
 #END interpretRA   
 
 #UI and init
