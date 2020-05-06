@@ -4,7 +4,6 @@ import tkinter
 # DEBUG FLAG
 debug = True
 #
-mycursor = db.cursor()
 
 
 def popupmsg(msg):
@@ -23,7 +22,7 @@ db = mysql.connector.connect(
     passwd="Tr332AndStuff",
     database="sakila"
 )
-
+mycursor = db.cursor()
 
 def runScript(myScript):
     mycursor.execute(myScript)
