@@ -1,8 +1,11 @@
 import mysql.connector
 import tkinter
 
+# DEBUG FLAG
+debug = True
+#
+mycursor = db.cursor()
 
-# relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
 
 def popupmsg(msg):
     popup = tkinter.Tk()
@@ -13,6 +16,7 @@ def popupmsg(msg):
     B1.pack()
     popup.mainloop()
 
+
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -20,7 +24,6 @@ db = mysql.connector.connect(
     database="sakila"
 )
 
-mycursor = db.cursor()
 
 def runScript(myScript):
     mycursor.execute(myScript)
@@ -29,12 +32,15 @@ def runScript(myScript):
 
 
 def interpretRA():
-    
+    if debug:
+        relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
+    else:
+        relationalStatement = entry.get()
+
     table1 = ""
     table2 = ""
     setDiff = False
     findPredicate = True
-    relationalStatement = entry.get()
 
     sqlStatement = "("
     selectStatement = ""
@@ -111,28 +117,29 @@ def interpretRA():
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
+
     runScript(sqlStatement)
-    popupmsg(sqlStatement)
-    print(sqlStatement)    
-    
+
+    if debug:
+        print(sqlStatement) 
+    else:
+        popupmsg(sqlStatement)
 #END interpretRA   
 
 #UI and init
-root = tkinter.Tk()
-root.title("RA Interpreter")
+if debug:
+    interpretRA()
+else:
+    root = tkinter.Tk()
+    root.title("RA Interpreter")
 
-canvas = tkinter.Canvas(root, width = 400, height = 300)
-canvas.pack()
+    canvas = tkinter.Canvas(root, width = 400, height = 300)
+    canvas.pack()
 
-entry = tkinter.Entry(root)
-canvas.create_window(200, 140, window = entry)
+    entry = tkinter.Entry(root)
+    canvas.create_window(200, 140, window = entry)
 
-button = tkinter.Button(text='Interpret RA Statement', command=interpretRA)
-canvas.create_window(200, 180, window = button)
-#Awaits button press to run interpretRA with input
-root.mainloop()
-
-
-#interpretRA(relationalStatement, sqlStatement, findPredicate, setDiff)
-#print(sqlStatement)
-#runScript("(SELECT * FROM film WHERE film_id<20 ) MINUS (SELECT * FROM film WHERE film_id>500 )")
+    button = tkinter.Button(text='Interpret RA Statement', command=interpretRA)
+    canvas.create_window(200, 180, window = button)
+    #Awaits button press to run interpretRA with input
+    root.mainloop()
