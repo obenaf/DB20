@@ -93,13 +93,16 @@ def interpretRA():
     table1 = ""
     table2 = ""
     setDiff = False
+    intersect = False
     findPredicate = True
+    findIntPredicate = True
 
     sqlStatement = "("
     selectStatement = ""
     fromStatement = ""
     whereStatement = ""
     predicate = ""
+    predicateIntersect = ""
     
     for x in range( len(relationalStatement) ):
         if relationalStatement[x] == "∪":
@@ -107,6 +110,12 @@ def interpretRA():
             selectStatement = ""
             fromStatement = ""
             whereStatement = ""
+        if relationalStatement[x] == "∩":
+            table1 = "(" + selectStatement + fromStatement + whereStatement + ")"
+            selectStatement = ""
+            fromStatement = ""
+            whereStatement = ""
+            intersect = True
         if relationalStatement[x] == "-":
             table1 = "(" + selectStatement + fromStatement + whereStatement + ")"
             selectStatement = ""
@@ -117,6 +126,14 @@ def interpretRA():
             selectStatement = selectStatement + "SELECT "
             i = 1
             n = relationalStatement[x + i]
+            if findIntPredicate == True:
+                    while n != "(":
+                        predicateIntersect = predicateIntersect + n
+                        i = i + 1
+                        n = relationalStatement[x+i] 
+                    findIntPredicate = False
+            i = 1
+            n = relationalStatement[x + 1]
             while n != "(":
                 selectStatement = selectStatement + n
                 i = i + 1 
@@ -129,7 +146,7 @@ def interpretRA():
                 i = 2
                 n = relationalStatement[x + 2]
                 if findPredicate == True:
-                    while n != "<":
+                    while n != "<" and n != ">" and n != "=":
                         predicate = predicate + n
                         i = i + 1
                         n = relationalStatement[x+i] 
@@ -160,6 +177,8 @@ def interpretRA():
                         fromStatement = fromStatement + " natural left outer join "
                     elif n == "X":
                         fromStatement = fromStatement + ", "
+                    elif n == "⟗":
+                        fromStatement = fromStatement + " full join "
                     else:
                         fromStatement = fromStatement + n
                     i = i +1
@@ -168,6 +187,9 @@ def interpretRA():
     if setDiff == True:
         table2 = "(" + selectStatement + fromStatement + whereStatement + ")"
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
+    if intersect == True:
+        table2 = "(" + selectStatement + fromStatement + whereStatement + ")"
+        sqlStatement = selectStatement + "from " + table1 + "as t1 " + "where " + predicateIntersect + " in " + table2
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
     runScript(sqlStatement)
