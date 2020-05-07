@@ -2,7 +2,7 @@ import mysql.connector
 import tkinter
 
 # DEBUG FLAG
-debug = True
+debug = False
 #
 
 
@@ -116,13 +116,14 @@ def interpretRA():
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
-
-    runScript(sqlStatement)
-
+        
     if debug:
         print(sqlStatement) 
     else:
         popupmsg(sqlStatement)
+    runScript(sqlStatement)
+
+    
 #END interpretRA   
 
 #UI and init
