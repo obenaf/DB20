@@ -18,25 +18,45 @@ root.title("RA Interpreter")
 canvas = tkinter.Canvas(root, width = 300, height = 10)
 canvas.pack()
 
+label1 = tkinter.Label(root, text = 'host: ')
+canvas.create_window(300, 100, window = label1)
+label1.pack()
+
 hostEntry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = hostEntry)
 hostEntry.insert(0, 'localhost')
 hostEntry.pack()
+
+label2 = tkinter.Label(root, text = 'user: ')
+canvas.create_window(300, 100, window = label2)
+label2.pack()
 
 userEntry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = userEntry)
 userEntry.insert(0, 'root')
 userEntry.pack()
 
+label3 = tkinter.Label(root, text = 'password: ')
+canvas.create_window(300, 100, window = label3)
+label3.pack()
+
 passwdEntry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = passwdEntry)
 passwdEntry.insert(0, 'Tr332AndStuff')
 passwdEntry.pack()
 
+label4 = tkinter.Label(root, text = 'database: ')
+canvas.create_window(300, 100, window = label4)
+label4.pack()
+
 databaseEntry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = databaseEntry)
 databaseEntry.insert(0, 'sakila')
 databaseEntry.pack()
+
+label5 = tkinter.Label(root, text = '   ')
+canvas.create_window(300, 100, window = label5)
+label5.pack()
 
 label = tkinter.Label(root, text = 'Enter RA statement: ')
 canvas.create_window(300, 100, window = label)
@@ -155,16 +175,21 @@ def interpretRA():
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
     runScript(sqlStatement)
-    if debug:
-        print(sqlStatement) 
-    else:
-        popupmsg(sqlStatement)
+    popupmsg(sqlStatement)
 
     
+label6 = tkinter.Label(root, text = ' ')
+canvas.create_window(300, 100, window = label6)
+label6.pack()
 
 button = tkinter.Button(text='Interpret RA Statement', bg = 'blue', fg = 'white', command=interpretRA)
 canvas.create_window(300, 180, window = button)
 button.pack()
+
+labelE = tkinter.Label(root, text = ' ')
+canvas.create_window(300, 100, window = labelE)
+labelE.pack()
+
 
 #Awaits button press to run interpretRA with input
 root.mainloop()
