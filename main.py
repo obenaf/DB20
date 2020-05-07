@@ -2,10 +2,6 @@ import mysql.connector
 import tkinter
 import os
 
-# DEBUG FLAG
-debug = False
-#
-
 # host1="localhost"
 # user1="root"
 # passwd1="Tr332AndStuff"
