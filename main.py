@@ -5,6 +5,14 @@ import tkinter
 debug = False
 #
 
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="Tr332AndStuff",
+    database="sakila"
+)
+mycursor = db.cursor()
+
 
 def popupmsg(msg):
     popup = tkinter.Tk()
@@ -15,14 +23,6 @@ def popupmsg(msg):
     B1.pack()
     popup.mainloop()
 
-
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Tr332AndStuff",
-    database="sakila"
-)
-mycursor = db.cursor()
 
 def runScript(myScript):
     mycursor.execute(myScript)
@@ -116,12 +116,12 @@ def interpretRA():
         sqlStatement = selectStatement + "from " + table1 + "as t1 " + "natural left join " + table2 + "as t2 " + "where t2." + predicate + " IS NULL;" 
     else:
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
-        
+    runScript(sqlStatement)
     if debug:
         print(sqlStatement) 
     else:
         popupmsg(sqlStatement)
-    runScript(sqlStatement)
+    
 
     
 #END interpretRA   
