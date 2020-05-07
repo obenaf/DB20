@@ -1,17 +1,51 @@
 import mysql.connector
 import tkinter
+import os
 
 # DEBUG FLAG
 debug = False
 #
 
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Tr332AndStuff",
-    database="sakila"
-)
-mycursor = db.cursor()
+# host1="localhost"
+# user1="root"
+# passwd1="Tr332AndStuff"
+# database1="sakila"
+
+#UI and init
+root = tkinter.Tk()
+root.title("RA Interpreter")
+
+canvas = tkinter.Canvas(root, width = 300, height = 10)
+canvas.pack()
+
+hostEntry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = hostEntry)
+hostEntry.insert(0, 'localhost')
+hostEntry.pack()
+
+userEntry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = userEntry)
+userEntry.insert(0, 'root')
+userEntry.pack()
+
+passwdEntry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = passwdEntry)
+passwdEntry.insert(0, 'Tr332AndStuff')
+passwdEntry.pack()
+
+databaseEntry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = databaseEntry)
+databaseEntry.insert(0, 'sakila')
+databaseEntry.pack()
+
+label = tkinter.Label(root, text = 'Enter RA statement: ')
+canvas.create_window(300, 100, window = label)
+label.pack()
+
+entry = tkinter.Entry(root)
+canvas.create_window(200, 140, window = entry)
+entry.pack()
+
 
 
 def popupmsg(msg):
@@ -25,16 +59,20 @@ def popupmsg(msg):
 
 
 def runScript(myScript):
+    db = mysql.connector.connect(
+            host = hostEntry.get(),
+            user = userEntry.get(),
+            passwd = passwdEntry.get(),
+            database = databaseEntry.get()
+        )
+    mycursor = db.cursor()
     mycursor.execute(myScript)
     for x in mycursor:
         print(x)
 
 
 def interpretRA():
-    if debug:
-        relationalStatement = "Π*(σid<30(test1))∪Π*(σid<30(test2))"
-    else:
-        relationalStatement = entry.get()
+    relationalStatement = entry.get()
 
     table1 = ""
     table2 = ""
@@ -121,25 +159,14 @@ def interpretRA():
         print(sqlStatement) 
     else:
         popupmsg(sqlStatement)
-    
 
     
+
+button = tkinter.Button(text='Interpret RA Statement', bg = 'blue', fg = 'white', command=interpretRA)
+canvas.create_window(300, 180, window = button)
+button.pack()
+
+#Awaits button press to run interpretRA with input
+root.mainloop()
 #END interpretRA   
 
-#UI and init
-if debug:
-    interpretRA()
-else:
-    root = tkinter.Tk()
-    root.title("RA Interpreter")
-
-    canvas = tkinter.Canvas(root, width = 400, height = 300)
-    canvas.pack()
-
-    entry = tkinter.Entry(root)
-    canvas.create_window(200, 140, window = entry)
-
-    button = tkinter.Button(text='Interpret RA Statement', command=interpretRA)
-    canvas.create_window(200, 180, window = button)
-    #Awaits button press to run interpretRA with input
-    root.mainloop()
