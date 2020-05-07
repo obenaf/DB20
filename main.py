@@ -1,13 +1,12 @@
+# Built by: Luke Ryssel, Richard Deming, & Doug Barnes
+# CS-360 Final Project
+# RA to MySQL Interpreter
 import mysql.connector
 import tkinter
 import os
 
-# host1="localhost"
-# user1="root"
-# passwd1="Tr332AndStuff"
-# database1="sakila"
 
-#UI and init
+#UI
 root = tkinter.Tk()
 root.title("RA Interpreter")
 
@@ -61,7 +60,7 @@ label.pack()
 entry = tkinter.Entry(root)
 canvas.create_window(200, 140, window = entry)
 entry.pack()
-
+#End UI
 
 
 def popupmsg(msg):
@@ -72,6 +71,7 @@ def popupmsg(msg):
     B1 = tkinter.Button(popup, text="Okay", command = popup.destroy)
     B1.pack()
     popup.mainloop()
+#End popupmsg
 
 
 def runScript(myScript):
@@ -85,6 +85,7 @@ def runScript(myScript):
     mycursor.execute(myScript)
     for x in mycursor:
         print(x)
+#End runScript
 
 
 def interpretRA():
@@ -194,8 +195,10 @@ def interpretRA():
         sqlStatement = sqlStatement + selectStatement + fromStatement + whereStatement + ")"
     runScript(sqlStatement)
     popupmsg(sqlStatement)
+#End interpretRA
 
-    
+
+#UI and Init
 label6 = tkinter.Label(root, text = ' ')
 canvas.create_window(300, 100, window = label6)
 label6.pack()
@@ -208,8 +211,5 @@ labelE = tkinter.Label(root, text = ' ')
 canvas.create_window(300, 100, window = labelE)
 labelE.pack()
 
-
 #Awaits button press to run interpretRA with input
 root.mainloop()
-#END interpretRA   
-
