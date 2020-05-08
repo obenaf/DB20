@@ -1,0 +1,16 @@
+Π*(actor)
+Πactor_id(actor)
+Πactor_id(σactor_id<100(actor)
+Πactor_id(σactor_id<100(actor⋈film_actor)
+Π*(σactor_id<100(actorXfilm)
+(Πactor_id(σactor_id<100(actor))∪(Πactor_id(σactor_id>200(actor))
+(Πactor_id(σactor_id<100(actor))∩(Πactor_id(σactor_id>200(actor))
+(Πactor_id(σactor_id<200(actor))-(Πactor_id(σactor_id<100(actor))
+
+
+
+sakila DB:
+Actor(actor_id, first_name, last_name, last_update) actor_id
+address(address_id, address, address2, etc) address_id
+film(film_id, title, description, etc) film_id
+film_actor(actor_id, film_id, last_update) actor_id, film_id
